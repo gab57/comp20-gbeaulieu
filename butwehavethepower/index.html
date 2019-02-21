@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Union Strike Folk Song</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+	<h1 id="title">Union Strike Folk Song</h1>
+	<video src="https://www.cs.tufts.edu/comp/20/butwehavethepower.mp4" id="butwehavethepower" controls></video>
+	<div id="lyrics"></div>
+
+<script>
+	var power = document.getElementById("butwehavethepower");
+	/* call showLyric as time updates */
+	power.ontimeupdate = function() {showLyrics()};
+
+/* show the current lyric */
+function showLyrics() {
+	var time = power.currentTime;
+	var lyric = getCurrentLyric(time)
+	document.getElementById("lyrics").innerHTML = lyric;
+}
+
+/* grab the current lyric based on time */
+function getCurrentLyric(time){
+	var lyric;
+	if (time > 6 && time < 8.5) {
+		lyric = "Lisa: Come gather round, children";
+	} else if (time > 8.5 && time < 10.5) {
+		lyric = "It's high time ye learned";
+	} else if (time > 10.5 && time < 13) {
+		lyric = "'Bout a hero named Homer";
+	} else if (time > 13 && time < 16) {
+		lyric = "And a devil named Burns.";
+	} else if (time > 16 && time < 19) {
+		lyric = "We'll march 'till we drop";
+	} else if (time > 19 && time < 22) {
+		lyric = "The girls and the fellas.";
+	} else if (time > 22 && time < 24) {
+		lyric = "We'll fight 'till the death";
+	} else if (time > 24 && time < 26) {
+		lyric = "Or else fold like umbrellas.";
+	} else if ((time>37 && time<40) || (time>71 && time<75) || (time>82 && time<84)) {
+		lyric = "So we'll march day and night";
+	} else if ((time>40 && time<43) || (time>75 && time<77) || (time>84 && time<86)) {
+		lyric = "By the big cooling tower.";
+	} else if ((time>43 && time<45) || (time>77 && time<80) || (time>86 && time<89)) {
+		lyric = "They have the plant";
+	} else if ((time>45 && time<49) || (time>80 && time<82) || (time>89 && time<92)) {
+		lyric = "But we have the power.";
+	} else {
+		lyric = "🎵🎵🎶"
+	}
+	return lyric;
+}
+
+</script>
+</body>
+</html>

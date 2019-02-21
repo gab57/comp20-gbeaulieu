@@ -1,0 +1,33 @@
+/* Style sheet for Union Strike Video */
+
+
+body {
+    background-color: black;
+}
+
+h1 {
+    text-align: center;
+    color: lightblue;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: Bold; 
+    font-size: 40pt;
+} 
+
+#butwehavethepower {
+    padding:5px;
+    border:2px solid white;
+    background-color: turquoise;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#lyrics {
+    display:block;
+    text-align:center;
+    font-weight: Bold; 
+    font-size: 40pt;
+    font-style: italic;
+    color: lightcyan;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
