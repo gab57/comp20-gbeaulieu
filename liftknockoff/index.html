@@ -47,7 +47,7 @@
 
     	function initMap() {
         	map = new google.maps.Map(document.getElementById('map'), {
-				center: {lat: LAT, lng: LONG},
+					center: myLatLong,
             	zoom: 11
         	});
     	}
@@ -75,7 +75,7 @@
 			}
 			var me = new google.maps.Marker({position: myLatLong, map: map, icon: "icon.png"});
 					me.addListener('click', function() {
-						x = "<h2>This is me! The WEINERMOBILE is " + weinerDistance + " miles away!</h2>";
+						x = "<h2>This is me! The WEINERMOBILE is " + weinerDistance + " miles away! The nearest vehicle is " + closest.toFixed(2) + " miles away.</h2>";
 						var infowindow = new google.maps.InfoWindow({content: x});
 						infowindow.open(map, me);});
 			for (var i = 0; i < carData.length; i++) {
@@ -110,7 +110,6 @@
 	function addMarkerFunction() {
 		for (var i = 0; i < markerArray.length; i++) {
 			markerArray[i].addListener('click', function() {
-				console.log("MADE IT HERE");
 				x = "<h2>This vehicle is user " + markerArray[i].name + " and it is " + markerArray[i].dist + "miles away!</h2>";
 				var infowindow = new google.maps.InfoWindow({content: x, pos: markerArray[i].position});
 				infowindow.open(map, markerArray[i]);
