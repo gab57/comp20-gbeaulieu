@@ -1,0 +1,67 @@
+ /* stylesheet for lift knockoff */
+ 
+#map {
+    width: 75%;
+    height: 100%;
+    float: right;
+    margin-right: 1%;
+} 
+
+
+h1{
+    font-size: 60pt;
+    padding: 0;
+    margin: 30px;
+    font-style: bold;
+    color: turquoise; 
+    text-shadow: 4px 6px #9728ff;
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+
+h2 {
+    font-size: 30pt;
+    color: darkblue; 
+    text-shadow: 2px 1px #ff28d0;
+    text-align: center;
+    font-style: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+h3{
+    font-size: 30pt;
+    font-style: bold;
+    color: #ff28d0; 
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+p {
+    font-size: 15pt;
+    color: white; 
+    text-align: center;
+    font-weight: lighter;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.bold {
+    /*font-weight: bold;*/
+}
+
+#infobar {
+    float: left;
+    width: 20%;
+    margin-left: 1%;
+
+}
+
+body{
+    background-color: black;
+
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}

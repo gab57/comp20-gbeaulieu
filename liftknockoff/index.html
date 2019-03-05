@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Oober Rideshare</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+	<link rel="stylesheet" href="liftknockoff.css" type="text/css" />
+	<link rel="icon" href="icon.png">
+  </head>
+
+  <body>
+	<h1>welcome to oober </h1>
+
+	<div id="infobar">
+		<h3>my info</h3>
+			<p class=bold id="username">I'm user...</p>
+			<p class=bold id="loc">My current location is...</p>
+			<h3>vehicle info</h3>
+			<p class=bold id="closestOther">The nearest vehicle is....</p>
+			<p class=bold id="weinerMobileStatus">The Weinermobile doesn't seem to be out on the town right now...</p>
+		</div>
+
+    <div id="map"></div>
+
+	<script>
+		var LAT;
+		var LONG;
+		var myLatLong;
+		var map;
+		var USER = "pUaap2NT"; 
+		var carData = 5;
+		var closest = null;
+		var weinerDistance;
+		/*var markerArray = new Array();*/
+
+		navigator.geolocation.getCurrentPosition(setLocation);
+		function setLocation(position){
+			LAT = position.coords.latitude; 
+			LONG = position.coords.longitude;
+			myLatLong = new google.maps.LatLng(LAT, LONG);
+			document.getElementById("username").innerHTML = "I'm user " + USER;
+			document.getElementById("loc").innerHTML = "My current location is " + LAT + ", " + LONG;
+			initMap()
+			getData()
+		}
+
+    	function initMap() {
+        	map = new google.maps.Map(document.getElementById('map'), {
+				center: {lat: LAT, lng: LONG},
+            	zoom: 11
+        	});
+    	}
+
+		function getData(){
+    		var data = "username=" + USER + "&lat=" + LAT + "&lng=" + LONG;  
+			var req = new XMLHttpRequest();
+			var url = "https://hans-moleman.herokuapp.com/rides";
+    		req.open("POST", url, true);
+    		req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');  
+    		req.onreadystatechange = function() {
+        		if(req.readyState == 4 && req.status == 200) {
+					carData = JSON.parse(req.responseText);
+					processCarData()
+    				}
+				}				
+			req.send(data);
+		}
+		
+		function processCarData(){
+			var me = new google.maps.Marker({position: myLatLong, map: map, icon: "icon.png"});
+					me.addListener('click', function() {
+						x = "<h2>This is me! The WEINERMOBILE is " + weinerDistance + " miles away!</h2>";
+						var infowindow = new google.maps.InfoWindow({content: x});
+						infowindow.open(map, me);});
+			for (var i = 0; i < carData.passengers.length; i++) {
+					/* establish distances & locations */
+					var pos = {lat: carData.passengers[i]["lat"], lng: carData.passengers[i]["lng"]};
+					var currentLatLng = new google.maps.LatLng(pos);
+					var iDistance = google.maps.geometry.spherical.computeDistanceBetween(myLatLong, currentLatLng)/1600;
+					/* create the markers */
+					var marker = new google.maps.Marker({position: pos, map: map, icon: "vehicle.png", name: carData.passengers[i]["username"], dist: iDistance.toFixed(2)});
+					marker.addListener('click', function() {
+						x = "<h2>This vehicle is user " + marker.name + " and it is " + marker.dist + "miles away!</h2>";
+						var infowindow = new google.maps.InfoWindow({content: x, pos: marker.pos});
+						infowindow.open(map, marker);});
+					/* handle weinermobile */
+					if (carData.passengers[i]["username"] === "WEINERMOBILE"){
+						weinerDistance = iDistance.toFixed(2);
+						marker.setIcon("weiner.png");
+						document.getElementById("weinerMobileStatus").innerHTML = "The WEINERMOBILE is on the road and it is " + weinerDistance + " miles away!";
+					}
+					/* check if closest */
+					if (iDistance < closest || closest === null) {
+						closest = iDistance;
+					}
+				/* markerArray[i] = marker */
+				}
+			/* addMarkerFunction() */
+			document.getElementById("closestOther").innerHTML = "The nearest vehicle is " + closest.toFixed(2) + " miles away!";
+		}
+
+
+/* MY ATTEMPT TO FIX THE INFOWINDOW ISSUE IS BELOW...
+	function addMarkerFunction() {
+		for (var i = 0; i < markerArray.length; i++) {
+			markerArray[i].addListener('click', function() {
+				console.log("MADE IT HERE");
+				x = "<h2>This vehicle is user " + markerArray[i].name + " and it is " + markerArray[i].dist + "miles away!</h2>";
+				var infowindow = new google.maps.InfoWindow({content: x, pos: markerArray[i].position});
+				infowindow.open(map, markerArray[i]);
+			});
+		}
+	}
+	*/
+
+/*	no longer need function below; misread something and thought 
+ I had to filter out all passengers except those created in the past 3 minutes.
+ This function did that, but it turned out I misread the website, so it remains uncalled*/ 	
+		function recentBool(index){
+			var now = new Date;
+			var cutoff = now.getTime()/1000 - 180;
+			var vehicle = new Date(carData.passengers[index]["created_at"]);
+			var currentVehicle = vehicle.getTime()/1000;
+			return (cutoff < currentVehicle);
+		}
+
+		</script>
+    	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRY8bX6rT6spQ8gtjP4W9ikMDIEUpCQjQ&callback=initMap&libraries=geometry"
+			async defer>
+		</script>
+   </body>
+</html>
+
+
+
+
