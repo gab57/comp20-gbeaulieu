@@ -68,24 +68,29 @@
 		}
 		
 		function processCarData(){
+			if ("passengers" in carData){
+				carData = carData.passengers;
+			} else if ("vehicles" in carData){
+				carData = carData.vehicles;
+			}
 			var me = new google.maps.Marker({position: myLatLong, map: map, icon: "icon.png"});
 					me.addListener('click', function() {
 						x = "<h2>This is me! The WEINERMOBILE is " + weinerDistance + " miles away!</h2>";
 						var infowindow = new google.maps.InfoWindow({content: x});
 						infowindow.open(map, me);});
-			for (var i = 0; i < carData.passengers.length; i++) {
+			for (var i = 0; i < carData.length; i++) {
 					/* establish distances & locations */
-					var pos = {lat: carData.passengers[i]["lat"], lng: carData.passengers[i]["lng"]};
+					var pos = {lat: carData[i]["lat"], lng: carData[i]["lng"]};
 					var currentLatLng = new google.maps.LatLng(pos);
 					var iDistance = google.maps.geometry.spherical.computeDistanceBetween(myLatLong, currentLatLng)/1600;
 					/* create the markers */
-					var marker = new google.maps.Marker({position: pos, map: map, icon: "vehicle.png", name: carData.passengers[i]["username"], dist: iDistance.toFixed(2)});
+					var marker = new google.maps.Marker({position: pos, map: map, icon: "vehicle.png", name: carData[i]["username"], dist: iDistance.toFixed(2)});
 					marker.addListener('click', function() {
 						x = "<h2>This vehicle is user " + marker.name + " and it is " + marker.dist + "miles away!</h2>";
 						var infowindow = new google.maps.InfoWindow({content: x, pos: marker.pos});
 						infowindow.open(map, marker);});
 					/* handle weinermobile */
-					if (carData.passengers[i]["username"] === "WEINERMOBILE"){
+					if (carData[i]["username"] === "WEINERMOBILE"){
 						weinerDistance = iDistance.toFixed(2);
 						marker.setIcon("weiner.png");
 						document.getElementById("weinerMobileStatus").innerHTML = "The WEINERMOBILE is on the road and it is " + weinerDistance + " miles away!";
@@ -120,7 +125,7 @@
 		function recentBool(index){
 			var now = new Date;
 			var cutoff = now.getTime()/1000 - 180;
-			var vehicle = new Date(carData.passengers[index]["created_at"]);
+			var vehicle = new Date(carData[index]["created_at"]);
 			var currentVehicle = vehicle.getTime()/1000;
 			return (cutoff < currentVehicle);
 		}

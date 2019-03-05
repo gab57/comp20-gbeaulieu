@@ -1,6 +1,6 @@
 # Lift Knockoff (i.e. oober) lab README.md
 
-### 1. Assignment basically completed! There are a few issues: 1) is that the info window only pops up in 2 places; one for "me" and one for the last marker created in the loop.
+### 1. Assignment basically completed! One tragic issue that I didn't realize was an issue until late monday night & attempted to solve, but ran out of time. The info window works for clicking on me. However, when clicking on passengers or vehicles, it only works for the last marker created in the loop (because each loop replaces the var "marker" with the latest marker object. Tried fixing by putting the markers into an array and accessing location from the array through indexing, but had trouble dealing with the object type.)
 
 ### 2. Collaborated w/ Wei-ren Murray and Mikayla Toffer, help from TA Juliana
 
