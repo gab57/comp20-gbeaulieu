@@ -19,12 +19,15 @@ h3 {
     text-align: center;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 16pt;
+    text-indent: 25px;
+
 }
 
 h4 {
     text-align: center;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 14pt;
+    text-indent: 50px;
 }   
 
 p {
@@ -46,21 +49,4 @@ img {
     display:block;
     text-align:center;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
-
-.resume{
-    text-align: left;
-}
-
-h3.resume{
-    text-indent: 25px;
-}
-
-h4.resume{
-    text-indent: 50px;
-}
-
-p.resume{
-    margin-left: 75px;
-
 }
