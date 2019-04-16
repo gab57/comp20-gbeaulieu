@@ -1,33 +1,66 @@
-/* Style sheet for Union Strike Video */
-
-
-body {
-    background-color: black;
-}
+/* CSS style sheet for index.html*/
 
 h1 {
     text-align: center;
-    color: lightblue;
+    color: turquoise;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-weight: Bold; 
-    font-size: 40pt;
-} 
+    font-size: 30pt;
+}
 
-#butwehavethepower {
-    padding:5px;
-    border:2px solid white;
-    background-color: turquoise;
+h2 {
+    text-align: center;
+    color: blue;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 20pt;
+}
+
+h3 {
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 16pt;
+}
+
+h4 {
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 14pt;
+}   
+
+p {
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 14pt;
+}
+
+img {
+    padding:1px;
+    border:1px solid black;
+    background-color: blue;
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
 
-#lyrics {
+.link {
     display:block;
     text-align:center;
-    font-weight: Bold; 
-    font-size: 40pt;
-    font-style: italic;
-    color: lightcyan;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.resume{
+    text-align: left;
+}
+
+h3.resume{
+    text-indent: 25px;
+}
+
+h4.resume{
+    text-indent: 50px;
+}
+
+p.resume{
+    margin-left: 75px;
+
 }
