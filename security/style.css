@@ -39,10 +39,20 @@ h3 {
 h4 {
     text-align: left;
     font-family: Georgia, 'Times New Roman', Times, serif, 'Times New Roman', serif;
+    font-size: 18pt;
+    text-indent: 50px;
+    color: red;
+    font-style: bold;
+}   
+
+h5 {
+    text-align: left;
+    font-family: Georgia, 'Times New Roman', Times, serif, 'Times New Roman', serif;
     font-size: 14pt;
     text-indent: 50px;
     color: lightcoral;
 }   
+
 
 p {
     text-align: left;
