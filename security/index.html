@@ -12,49 +12,83 @@
        <h3> A report by Gabby B :)</h3>
        <img class="img", src="meme.jpg" alt="meme">
        <h2>INTRODUCTION</h2>
-        <p> Cyber security is an increasingly important </p>
+        <p> I was tasked with assessing the web security of a ride hailing service platform developed by Philip Miljanic. Components of this platform included a client-facing HTML interface featuring a Google Map populated with vehicle and driver data. Each client’s username and location was submitted to a server via an HTTPRequest, which returned data of other vehicles/drivers with which the map was populated. The web app/server — a node.js/express web application hosted on the Heroku cloud platform — is located at https://floating-bastion-24993.herokuapp.com/.
+        </p>
         <h2> METHODOLOGY</h2>
+        <p>
+            Several methods were used to get a sense for the platforms security and privacy issues. First, I examined the platform’s source code and interacted with the server through the terminal to get a sense of its capabilities. This alone revealed a key privacy issue. Subsequently, basic attempts at compromising the site were launched from the terminal and the browser, including attempts at cross-site scripting and Mongo DB injection.
+                After these security attempts, I ran vulnerability scans using a Pentest-Tools scanner
+        </p>
         <h2> ABSTRACT OF FINDINGS</h2>
-        <p> At a high level the majority of security issues pertained to...</p>
-        <h2> SUMMARY OF ISSUES FOUND</h2>
+        <p> This webapp has both basic privacy issues that any user could find, as well as vulnerabilities that moderately knowledgeable hackers could exploit. First, accessing the web app’s main route (i.e https://floating-bastion-24993.herokuapp.com/ ) shows a complete history of all drivers’ names, their precise locations, and times, which constitutes a major privacy issue: any user accessing the web app could see a particular driver’s significant locations (such as their home or work). Second, inputing specific text after the url https://floating-bastion-24993.herokuapp.com/passenger.JSON leads to the same issues for all passengers (that is, it shows a complete history of all passenger usernames and locations, which is a major data privacy concern.
+            <h2> SUMMARY OF ISSUES FOUND</h2>
+
         <!-- Issue 1 -->
         <div class=issueone>
-            <h4> Issue 1: MongoDB Injection</h4>
-            <p>
-            <h4>Severity: High</h4>
-            <h4>Issue</h4>
-            <h4>Location</h4>
-            <p> The issue was found in the...</p>
-            <h4>Proof of Vulnerability</h4>
-            <h4>Resolutions/Recommendations</h4>
+            <h4> ISSUE 1 - Poor WebApp function design (Data security)</h4>
+            <h5>SEVERITY: High/Critical</h5>
+            <p>Sensitive private information is accessible to malicious individuals with no technical skill.</p>
+            <h5>Location</h5>
+            <p> This issue is found at the webapps ‘/‘ route ( https://floating-bastion-24993.herokuapp.com/ )</p>
+            <img class="img", src="Issue1.png" alt="Issue 1">
+
+            <h5>Description</h5>
+            <p> This issue is simple to find, as it is the default output of the serverside webapp at https://floating-bastion-24993.herokuapp.com/. It is particularly dangerous because it contains old location and time data, which a malicious user could analyze to determine sensitive information (such as home address, frequently driven neighborhoods or work schedule). This is unacceptable for a reputable platform serving a public audience.
+                </p>
+            <h5>Proof of Vulnerability</h5>
+            <img class="img", src="Issue1Page.png" alt="Issue 1">
+            <h5>Resolutions/Recommendations</h5>
+            <p>	I recommend changing the list that the get route returns. If the company thinks the functionality is necessary, at the very least remove the ID from the documents returned in that list to better abstract individual drivers and make individual analysis more difficult.
+                </p>
+                <h2>••••••••••••••••••••</h2>
+
         </div>
+
         <!-- Issue 2 -->
         <div class=issuetwo>
-                <h4> Issue 1: MongoDB Injection</h4>
-                <p>
-                <h4>Severity: High</h4>
-                <h4>Issue</h4>
-                <h4>Location</h4>
-                <p> The issue was found in the...</p>
-                <h4>Proof of Vulnerability</h4>
-                <h4>Resolutions/Recommendations</h4>
-            </div>
+                <h4> ISSUE 2 - Mongo DB Injection (Data security)</h4>
+            <h5>SEVERITY: High</h5>
+                <p>Sensitive private information is accessible to hackers with modest skill. </p>
+            <h5>Location</h5>
+            <p> ‘/passenger.JSON’ route ( https://floating-bastion-24993.herokuapp.com/passenger.JSON )</p>
+            <img class="img", src="Issue2.png" alt="Issue 1">
+            <h5>Description</h5>
+            <p>	Exploitation of this vulnerability takes advantage of the MongoDB operator [$ne]. By inputing the querystring “username[$ne]=anything”, the database returns a list of all passengers and their historical locations and times. Like Issue 1, this is a major security breach, as a malicious hacker could easy obtain this unprotected data and analyze it for likely passenger information (like home/work address or habitual location). Again, this is unacceptable for a reputable platform serving a public audience.
+                </p>
+            <h5>Proof of Vulnerability</h5>
+            <img class="img", src="Issue2Page.png" alt="Issue 1">
+
+            <h5>Resolutions/Recommendations</h5>
+            <h2>••••••••••••••••••••</h2>
+        </div>
+
         <!-- Issue 3 -->
         <div class=issuethree>
-                <h4> Issue 3: MongoDB Injection</h4>
-                <p>
-                <h4>Severity: High</h4>
-                <h4>Issue</h4>
-                <h4>Location</h4>
-                <p> The issue was found in the...</p>
-                <h4>Proof of Vulnerability</h4>
-                <h4>Resolutions/Recommendations</h4>
-            </div>
+            <h4> ISSUE 3: Response header "Access-Control-Allow-Origin", “*"  (security misconfiguration / bad coding practice)</h4>
+            <h5>SEVERITY: Moderate/High</h5>
+                <p>Individuals with malicious intent can easily access driver data and identifying information. </p>
+            <h5>Location</h5>
+            <p> This response header was set for all get routes</p>
+            <h5>Proof of Vulnerability</h5>
+            <img class="img", src="Issue3a.png" alt="Issue 1">
+            <img class="img", src="Issue3b.png" alt="Issue 1">
+            <img class="img", src="Issue3c" alt="Issue 1">
+
+            <h5>Resolutions/Recommendations</h5>
+            <h2>••••••••••••••••••••</h2>
+
+        </div>
 
 
         <h2> Conclusion</h2>
+        <p>To make this site more secure for all users of the service— both drivers and passengers — I suggest that the developer take several steps.
+            </p>
         <h2> References</h2>
-
+        <p>• Main webapp (https://floating-bastion-24993.herokuapp.com/rides) </p>
+        <p>• WebSecurify blog (https://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html) </p>
+        <p>• Comp20 webpage (https://tuftsdev.github.io/WebProgramming/notes/web_security.html) </p>
+        <p>• OWASP (https://www.owasp.org/index.php/OWASP_Secure_Headers_Project)</p>
+    <p>• Atlassian.com (https://www.atlassian.com/trust/security/security-severity-levels)</p>
     </body>
 
     <script>
