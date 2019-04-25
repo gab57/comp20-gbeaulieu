@@ -16,13 +16,11 @@
         </p>
         <h2> METHODOLOGY</h2>
         <p>
-            Several methods were used to get a sense for the platforms security and privacy issues. First, I examined the platform’s source code and interacted with the server through the terminal to get a sense of its capabilities. This alone revealed a key privacy issue. Subsequently, basic attempts at compromising the site were launched from the terminal and the browser, including attempts at cross-site scripting and Mongo DB injection.
-                After these security attempts, I ran vulnerability scans using a Pentest-Tools scanner
+            Several methods were used to get a sense for the platform's security and privacy issues. First, I examined the platform’s source code and interacted with the server through the terminal to get a sense of its capabilities. This alone revealed a key privacy issue. Subsequently, basic attempts at compromising the site were launched from the terminal and the browser, including attempts at cross-site scripting and Mongo DB injection. After these security-breaching attempts, I ran a vulnerability scan using a Pentest-Tools scanner, which provided some suggestions for additional security configurations.
         </p>
         <h2> ABSTRACT OF FINDINGS</h2>
-        <p> This webapp has both basic privacy issues that any user could find, as well as vulnerabilities that moderately knowledgeable hackers could exploit. First, accessing the web app’s main route (i.e https://floating-bastion-24993.herokuapp.com/ ) shows a complete history of all drivers’ names, their precise locations, and times, which constitutes a major privacy issue: any user accessing the web app could see a particular driver’s significant locations (such as their home or work). Second, inputing specific text after the url https://floating-bastion-24993.herokuapp.com/passenger.JSON leads to the same issues for all passengers (that is, it shows a complete history of all passenger usernames and locations, which is a major data privacy concern.
-            <h2> SUMMARY OF ISSUES FOUND</h2>
-
+        <p> This webapp has both basic privacy issues that any user could find, as well as vulnerabilities that moderately knowledgeable hackers could exploit. First, accessing the web app’s main route (i.e https://floating-bastion-24993.herokuapp.com/ ) shows a complete history of all drivers’ names, their precise locations, and times, which constitutes a major privacy issue: any user accessing the web app could potentially deduce a particular driver’s significant locations (such as their home or work). In addition, inputing specific text after the url https://floating-bastion-24993.herokuapp.com/passenger.JSON leads to a similar display of all passenger information (that is, it shows a complete history of all passenger usernames and locations). The webapp also has what’s known as “insecure configurations”, which essentially means its settings make it vulnerable to further security breaches. Attempts at one major type of security vulnerability (called cross side scripting) were notably unsuccessful, which is a positive attribute of the webapp’s security.</p>
+        <h2> SUMMARY OF ISSUES FOUND</h2>
         <!-- Issue 1 -->
         <div class=issueone>
             <h4> ISSUE 1 - Poor WebApp function design (Data security)</h4>
@@ -51,47 +49,68 @@
                 <p>Sensitive private information is accessible to hackers with modest skill. </p>
             <h5>Location</h5>
             <p> ‘/passenger.JSON’ route ( https://floating-bastion-24993.herokuapp.com/passenger.JSON )</p>
-            <img class="img", src="Issue2.png" alt="Issue 1">
+            <img class="img", src="Issue2.png" alt="Issue 2">
             <h5>Description</h5>
             <p>	Exploitation of this vulnerability takes advantage of the MongoDB operator [$ne]. By inputing the querystring “username[$ne]=anything”, the database returns a list of all passengers and their historical locations and times. Like Issue 1, this is a major security breach, as a malicious hacker could easy obtain this unprotected data and analyze it for likely passenger information (like home/work address or habitual location). Again, this is unacceptable for a reputable platform serving a public audience.
                 </p>
             <h5>Proof of Vulnerability</h5>
-            <img class="img", src="Issue2Page.png" alt="Issue 1">
+            <img class="img", src="Issue2Page.png" alt="Issue 2">
 
             <h5>Resolutions/Recommendations</h5>
+            <p>To protect against a MongoDB injection, the developer should add code that ensures submitted inputs, are in, fact strings (and not malicious scripts or MongoDB operators like in the example with [$ge]). This type check could look something like:
+                </p>
+            <img class="img", src="Issue2fix.png" alt="Issue 2 fix">
             <h2>••••••••••••••••••••</h2>
         </div>
 
         <!-- Issue 3 -->
         <div class=issuethree>
-            <h4> ISSUE 3: Response header "Access-Control-Allow-Origin", “*"  (security misconfiguration / bad coding practice)</h4>
+            <h4> ISSUE 3: Response header "Access-Control-Allow-Origin", “*"  (insecure configuration / bad practice)</h4>
             <h5>SEVERITY: Moderate/High</h5>
-                <p>Individuals with malicious intent can easily access driver data and identifying information. </p>
+                <p>Any domain - and thus any malicious user - can access this web application. </p>
             <h5>Location</h5>
-            <p> This response header was set for all get routes</p>
+            <p> This response header was set for the post route and both get routes in the developer's source code (index.js file). </p>
             <h5>Proof of Vulnerability</h5>
-            <img class="img", src="Issue3a.png" alt="Issue 1">
-            <img class="img", src="Issue3b.png" alt="Issue 1">
-            <img class="img", src="Issue3c" alt="Issue 1">
-
+            <img class="img", src="Issue3a.png" alt="Issue 3">
+            <img class="img", src="Issue3b.png" alt="Issue 3">
+            <img class="img", src="Issue3c.png" alt="Issue 3">
+            
+            <h5>Description</h5>
+            <p>This issue pertains to the response headers designated for each of the routes for the developer’s web app. Each route contained the CORS header “response.header("Access-Control-Allow-Origin", “*”).” This is considered an insecure configuration by OWASP, since the ‘*’ allows any domain to access the web application and thus private and sensitive user data, as outlined in issues 1 and 2. AGAIN, this is unacceptable for a reputable platform serving a public audience.
+                </p>
             <h5>Resolutions/Recommendations</h5>
-            <h2>••••••••••••••••••••</h2>
+            <p> I recommend either designating a specific domain instead of '*'' (perhaps the rideshare platform's internal domain) to keep out unauthorized individuals. Another option is to utilize the basic access authentication method to verify access if authorized.
+            
+                <h2>••••••••••••••••••••</h2>
 
         </div>
 
-
         <h2> Conclusion</h2>
-        <p>To make this site more secure for all users of the service— both drivers and passengers — I suggest that the developer take several steps.
+
+        <p>To make this ridesharing platform more secure for all users of the service— (and to keep prospects of a $$$ IPO possible) — I suggest that the developer undertake the following actionable steps:
             </p>
+          <p>1. Handle the CORs header issue (either swap out * for a designated domain or enable basic access authentication).
+            </p>  
+           <p> 2. Type check all querystrings, as discussed in Issue 2 solutions. Even with CORs restricted to a safe domain, this should still be done, as HTTP request information can be faked.
+            </p>
+            <p>3. Reconsider your webapp design to ensure that private and sensitive data is only returned by the server if it serves a genuine purpose, or at the very least enable some secondary authentication (beyond the CORs authentication in case of a breach there) if that functionality is necessary. 
+            </p>
+            <p>4. In order to be more secure against threats potentially not encountered in this review of the platform, I recommend adding these HTTP response headers... 
+            </p>
+            <img class="img", src="conclusion.png" alt="conclusion">
+            <p>...in order to be more secure against threats such as click-jacking, cross-site-scripting and "man in the middle" attacks. 
+                </p>
+            <p>5. Finally, I also recommend purchasing the “Pro-Basic” version of Pentest-Tools and running a full diagnostic scan of the webapp from that platform.
+        </p>
         <h2> References</h2>
         <p>• Main webapp (https://floating-bastion-24993.herokuapp.com/rides) </p>
         <p>• WebSecurify blog (https://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html) </p>
         <p>• Comp20 webpage (https://tuftsdev.github.io/WebProgramming/notes/web_security.html) </p>
         <p>• OWASP (https://www.owasp.org/index.php/OWASP_Secure_Headers_Project)</p>
-    <p>• Atlassian.com (https://www.atlassian.com/trust/security/security-severity-levels)</p>
+        <p>• Atlassian.com (https://www.atlassian.com/trust/security/security-severity-levels)</p>
+        <p> • OWASP on CORS(https://www.owasp.org/index.php/Test_Cross_Origin_Resource_Sharing_(OTG-CLIENT-007)#Origin_.26_Access-Control-Allow-Origin) </p>    
+        <p>• Sqreen (https://blog.sqreen.com/prevent-nosql-injections-mongodb-node-js/)</p>
+        <p>• Pentest-Tools free web server scan (https://pentest-tools.com/home) </p>
     </body>
-
-    <script>
-    </script>
 
 </html>
