@@ -27,16 +27,16 @@
             <h5>SEVERITY: High/Critical</h5>
             <p>Sensitive private information is accessible to malicious individuals with no technical skill.</p>
             <h5>Location</h5>
-            <p> This issue is found at the webapps ‘/‘ route ( https://floating-bastion-24993.herokuapp.com/ )</p>
+            <p> This issue is found at the webapp's ‘/‘ route ( https://floating-bastion-24993.herokuapp.com/ )</p>
             <img class="img", src="Issue1.png" alt="Issue 1">
 
             <h5>Description</h5>
-            <p> This issue is simple to find, as it is the default output of the serverside webapp at https://floating-bastion-24993.herokuapp.com/. It is particularly dangerous because it contains old location and time data, which a malicious user could analyze to determine sensitive information (such as home address, frequently driven neighborhoods or work schedule). This is unacceptable for a reputable platform serving a public audience.
+            <p> This issue is simple to find, as it is the default output of the webapp default route at https://floating-bastion-24993.herokuapp.com/. It is particularly dangerous because it contains old location and time data, which a malicious user could analyze to determine sensitive information (such as home address, frequently driven neighborhoods or work schedule). This is unacceptable for a reputable platform serving a public audience.
                 </p>
             <h5>Proof of Vulnerability</h5>
             <img class="img", src="Issue1Page.png" alt="Issue 1">
             <h5>Resolutions/Recommendations</h5>
-            <p>	I recommend changing the list that the get route returns. If the company thinks the functionality is necessary, at the very least remove the ID from the documents returned in that list to better abstract individual drivers and make individual analysis more difficult.
+            <p>	I recommend either adding in an authentication layer to prevent unauthorized individuals from accessing this page, or at the very least remove the ID from the documents returned in the list to better abstract drivers' data and make differentiating individual's sensitive information more difficult.
                 </p>
                 <h2>••••••••••••••••••••</h2>
 
